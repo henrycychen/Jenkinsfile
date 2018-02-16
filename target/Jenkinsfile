@@ -1,7 +1,6 @@
 pipeline {
     agent any
-    
-    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9691a27a-3e7f-49e9-ac2e-445db3dda6f1', url: 'https://github.com/henrycychen/Jenkinsfile.git']]])
+        
     stages {
         stage('Build') {
             steps {
