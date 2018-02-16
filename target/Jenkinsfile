@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    
+    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9691a27a-3e7f-49e9-ac2e-445db3dda6f1', url: 'https://github.com/henrycychen/Jenkinsfile.git']]])
+    stages {
+        stage('Build') {
+            steps {
+            		sh 'make'
+            		archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                echo 'Building..'
+            }
+        }
+        stage('Test') {
+            steps {
+            		/* `make check` returns non-zero on test failures,
+                * using `true` to allow the Pipeline to continue nonetheless
+                */
+                sh 'make check || true'
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
+    }
+}
